@@ -1,0 +1,10 @@
+.DS_Store
+*.csproj
+*.pidb
+*.sln
+*.userprefs
+*.meta
+*.unitypackage
+Library
+ProjectSettings
+Temp
