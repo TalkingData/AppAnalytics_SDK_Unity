@@ -72,8 +72,8 @@ App Analytics Unity 平台 SDK 由`封装层`和 `Native SDK` 两部分构成，
 	+ (void)trackEvent:(NSString *)eventId;
 	+ (void)trackEvent:(NSString *)eventId label:(NSString *)eventLabel;
 	+ (void)trackEvent:(NSString *)eventId 
-				 label:(NSString *)eventLabel 
-			parameters:(NSDictionary *)parameters;
+	             label:(NSString *)eventLabel 
+	        parameters:(NSDictionary *)parameters;
 	+ (void)setGlobalKV:(NSString *)key value:(id)value;
 	+ (void)removeGlobalKV:(NSString *)key;
 	```
