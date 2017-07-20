@@ -1,7 +1,7 @@
-##TalkingData AppAnalytics Unity SDK
+## TalkingData AppAnalytics Unity SDK
 App Analytics Unity 平台 SDK 由`封装层`和 `Native SDK` 两部分构成，目前GitHub上提供了封装层代码，需要从 [TalkingData官网](https://www.talkingdata.com/spa/sdk/#/config) 下载最新版的 Android 和 iOS 平台 Native SDK，组合使用。
 
-###集成说明
+### 集成说明
 1. 下载本项目（封装层）到本地；  
 2. 访问 [TalkingData官网](https://www.talkingdata.com/spa/sdk/#/config) 下载最新版的 Android 和 iOS 平台 App Analytics SDK（ Native SDK）
 	- 方法1：选择 Unity 平台进行功能定制；
@@ -15,11 +15,11 @@ App Analytics Unity 平台 SDK 由`封装层`和 `Native SDK` 两部分构成，
 4. 按 `Native SDK` 功能选项对`封装层`代码进行必要的删减，详见“注意事项”第2条；
 5. 将 Unity SDK 集成您需要统计的工程中，并按 [集成文档](http://doc.talkingdata.com/posts/34) 进行必要配置和功能调用。
 
-###注意事项
+### 注意事项
 1. 确保 Android 和 iOS Native SDK 功能项一致。
 2. 如果申请 Android 和 iOS SDK 时只选择部分功能，则需要在本项目中删除未选择功能对应的封装层代码。  
-	1) 未选择`自定义事件`功能则删除以下3部分  
-	　　删除 `Assets/TalkingDataScripts/TalkingDataPlugin.cs` 文件中如下代码：
+	a) 未选择`自定义事件`功能则删除以下3部分  
+	删除 `Assets/TalkingDataScripts/TalkingDataPlugin.cs` 文件中如下代码：
 	
 	```
 		[DllImport ("__Internal")]
@@ -49,7 +49,7 @@ App Analytics Unity 平台 SDK 由`封装层`和 `Native SDK` 两部分构成，
 			...
 		}
 	```
-	　　删除 `Assets/Plugins/iOS/TalkingData.mm` 文件中如下代码：
+	删除 `Assets/Plugins/iOS/TalkingData.mm` 文件中如下代码：
 	
 	```
 		void tdTrackEvent(const char *eventId) {
@@ -66,7 +66,7 @@ App Analytics Unity 平台 SDK 由`封装层`和 `Native SDK` 两部分构成，
 			...
 		}
 	```
-	　　删除 `Assets/Plugins/iOS/TalkingData.h` 文件中如下代码：
+	删除 `Assets/Plugins/iOS/TalkingData.h` 文件中如下代码：
 	
 	```
 	+ (void)trackEvent:(NSString *)eventId;
@@ -77,10 +77,10 @@ App Analytics Unity 平台 SDK 由`封装层`和 `Native SDK` 两部分构成，
 	+ (void)setGlobalKV:(NSString *)key value:(id)value;
 	+ (void)removeGlobalKV:(NSString *)key;
 	```
-	2) 未选择`标准化事件分析`功能则删除以下5部分  
-	　　删除 `Assets/TalkingDataScripts/TalkingDataOrder.cs` 文件  
-	　　删除 `Assets/TalkingDataScripts/TalkingDataShoppingCart.cs` 文件  
-	　　删除 `Assets/TalkingDataScripts/TalkingDataPlugin.cs` 文件中如下代码：
+	b) 未选择`标准化事件分析`功能则删除以下5部分  
+	删除 `Assets/TalkingDataScripts/TalkingDataOrder.cs` 文件  
+	删除 `Assets/TalkingDataScripts/TalkingDataShoppingCart.cs` 文件  
+	删除 `Assets/TalkingDataScripts/TalkingDataPlugin.cs` 文件中如下代码：
 	
 	```
 		[DllImport ("__Internal")]
@@ -124,7 +124,7 @@ App Analytics Unity 平台 SDK 由`封装层`和 `Native SDK` 两部分构成，
 			...
 		}
 	```
-	　　删除 `Assets/Plugins/iOS/TalkingData.mm` 文件中如下代码：
+	删除 `Assets/Plugins/iOS/TalkingData.mm` 文件中如下代码：
 	
 	```
 		void tdOnPlaceOrder(const char *accountId, const char *orderJson) {
@@ -147,7 +147,7 @@ App Analytics Unity 平台 SDK 由`封装层`和 `Native SDK` 两部分构成，
 			...
 		}
 	```
-	　　删除 `Assets/Plugins/iOS/TalkingData.h` 文件中如下代码：
+	删除 `Assets/Plugins/iOS/TalkingData.h` 文件中如下代码：
 	
 	```
 	@interface TalkingDataOrder : NSObject
@@ -167,8 +167,8 @@ App Analytics Unity 平台 SDK 由`封装层`和 `Native SDK` 两部分构成，
 	+ (void)onAddItemToShoppingCart:(NSString *)itemId category:(NSString *)category name:(NSString *)name unitPrice:(int)unitPrice amount:(int)amount;
 	+ (void)onViewShoppingCart:(TalkingDataShoppingCart *)shoppingCart;
 	```
-	3) 未选择`页面统计`功能则删除以下3部分  
-	　　删除 `Assets/TalkingDataScripts/TalkingDataPlugin.cs` 文件中如下代码：
+	c) 未选择`页面统计`功能则删除以下3部分  
+	删除 `Assets/TalkingDataScripts/TalkingDataPlugin.cs` 文件中如下代码：
 	
 	```
 		[DllImport ("__Internal")]
@@ -188,7 +188,7 @@ App Analytics Unity 平台 SDK 由`封装层`和 `Native SDK` 两部分构成，
 			...
 		}
 	```
-	　　删除 `Assets/Plugins/iOS/TalkingData.mm` 文件中如下代码：
+	删除 `Assets/Plugins/iOS/TalkingData.mm` 文件中如下代码：
 	
 	```
 		void tdTrackPageBegin(const char *pageName) {
@@ -199,15 +199,15 @@ App Analytics Unity 平台 SDK 由`封装层`和 `Native SDK` 两部分构成，
 			...
 		}
 	```
-	　　删除 `Assets/Plugins/iOS/TalkingData.h` 文件中如下代码：
+	删除 `Assets/Plugins/iOS/TalkingData.h` 文件中如下代码：
 	
 	```
 	+ (void)trackPageBegin:(NSString *)pageName;
 	+ (void)trackPageEnd:(NSString *)pageName;
 	```
-	4) 未选择`灵动分析`功能无需删除封装层代码  
-	5) 未选择`用户质量评估`功能则删除以下3部分  
-	　　删除 `Assets/TalkingDataScripts/TalkingDataPlugin.cs` 文件中如下代码：
+	d) 未选择`灵动分析`功能无需删除封装层代码  
+	e) 未选择`用户质量评估`功能则删除以下3部分  
+	删除 `Assets/TalkingDataScripts/TalkingDataPlugin.cs` 文件中如下代码：
 	
 	```
 		[DllImport ("__Internal")]
@@ -219,20 +219,20 @@ App Analytics Unity 平台 SDK 由`封装层`和 `Native SDK` 两部分构成，
 			...
 		}
 	```
-	　　删除 `Assets/Plugins/iOS/TalkingData.mm` 文件中如下代码：
+	删除 `Assets/Plugins/iOS/TalkingData.mm` 文件中如下代码：
 	
 	```
 		void tdSetAntiCheatingEnabled(bool enable) {
 			...
 		}
 	```
-	　　删除 `Assets/Plugins/iOS/TalkingData.h` 文件中如下代码：
+	删除 `Assets/Plugins/iOS/TalkingData.h` 文件中如下代码：
 	
 	```
 		+ (void)setAntiCheatingEnabled:(BOOL)enabled;
 	```
-	６) 未选择`推送营销`功能则删除以下３部分  
-	　　删除 `Assets/TalkingDataScripts/TalkingDataPlugin.cs` 文件中如下代码：
+	f) 未选择`推送营销`功能则删除以下３部分  
+	删除 `Assets/TalkingDataScripts/TalkingDataPlugin.cs` 文件中如下代码：
 	
 	```
 		[DllImport ("__Internal")]
@@ -259,10 +259,10 @@ App Analytics Unity 平台 SDK 由`封装层`和 `Native SDK` 两部分构成，
 		public static void HandlePushMessage() {
 			...
 		}
-#endif
-#endif
+	#endif
+	#endif
 	```
-	　　删除 `Assets/Plugins/iOS/TalkingData.mm` 文件中如下代码：
+	删除 `Assets/Plugins/iOS/TalkingData.mm` 文件中如下代码：
 
 	```
 		void tdSetDeviceToken(const char *deviceToken) {
@@ -273,15 +273,15 @@ App Analytics Unity 平台 SDK 由`封装层`和 `Native SDK` 两部分构成，
 			...
 		}
 	```
-	　　删除 `Assets/Plugins/iOS/TalkingData.h` 文件中如下代码：
+	删除 `Assets/Plugins/iOS/TalkingData.h` 文件中如下代码：
 
 	```
 	+ (void)setDeviceToken:(NSData *)deviceToken;
 	+ (BOOL)handlePushMessage:(NSDictionary *)message;
 	```
-	7) 未选择`易认证`功能则删除以下4部分  
-	　　删除 `Assets/TalkingDataScripts/TalkingDataSMSPlugin.cs` 文件  
-	　　删除 `Assets/Plugins/Android/TalkingDataSMSPlugin.jar` 文件  
-	　　删除 `Assets/Plugins/iOS/TalkingDataSMS.mm` 文件  
-	　　删除 `Assets/Plugins/iOS/TalkingDataSMS.h` 文件  
+	g) 未选择`易认证`功能则删除以下4部分  
+	删除 `Assets/TalkingDataScripts/TalkingDataSMSPlugin.cs` 文件  
+	删除 `Assets/Plugins/Android/TalkingDataSMSPlugin.jar` 文件  
+	删除 `Assets/Plugins/iOS/TalkingDataSMS.mm` 文件  
+	删除 `Assets/Plugins/iOS/TalkingDataSMS.h` 文件  
 	
