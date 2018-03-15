@@ -8,47 +8,69 @@ public class TalkingDataDemoScript : MonoBehaviour {
 	
 	const int left = 90;
 	const int height = 50;
-	const int top = 60;
+	const int top = 120;
 	int width = Screen.width - left * 2;
 	const int step = 60;
-	
-	void OnApplySucc(string requestId) {
-		Debug.Log ("OnApplySucc:" + requestId);
+	const string mobile = "13800138000";
+	const string account = "user01";
+	string request_id = null;
+
+	void OnEAuthSuccess(TalkingDataEAuthType type, string requestId, string phoneNumber, TalkingDataEAuthPhoneNumSeg[] phoneNumSeg) {
+		Debug.Log ("Unity Demo OnEAuthSuccess" + " requestId:" + requestId + " phoneNumber:" + phoneNumber);
+		foreach (var seg in phoneNumSeg) {
+			Debug.Log ("phoneNumSeg:" + seg.begin + "-" + seg.end);
+		}
+		request_id = requestId;
+		switch (type) {
+		case TalkingDataEAuthType.TDEAuthTypeApplyCode:
+			Debug.Log ("申请认证码成功");
+			break;
+		case TalkingDataEAuthType.TDEAuthTypeChecker:
+			Debug.Log ("此账号已认证");
+			break;
+		case TalkingDataEAuthType.TDEAuthTypePhoneMatch:
+			Debug.Log ("此账号与手机号已绑定");
+			break;
+		case TalkingDataEAuthType.TDEAuthTypeBind:
+			Debug.Log ("认证成功");
+			break;
+		case TalkingDataEAuthType.TDEAuthTypeUnBind:
+			Debug.Log ("已成功解除绑定");
+			break;
+		}
 	}
 	
-	void OnApplyFailed(int errorCode, string errorMessage) {
-		Debug.Log ("OnApplyFailed:" + errorCode + " " + errorMessage);
+	void OnEAuthFailed(TalkingDataEAuthType type, int errorCode, string errorMessage) {
+		Debug.Log ("Unity Demo OnEAuthFailed" + " type:" + type + " errorCode:" + errorCode + " errorMessage:" + errorMessage);
 	}
-	
-	void OnVerifySucc(string requestId) {
-		Debug.Log ("OnVerifySucc:" + requestId);
-	}
-	
-	void OnVerifyFailed(int errorCode, string errorMessage) {
-		Debug.Log ("OnVerifyFailed:" + errorCode + " " + errorMessage);
-	}
-	
+
 	void OnGUI() {
 		
 		int i = 0;
 		GUI.Box(new Rect(10, 10, Screen.width - 20, Screen.height - 20), "Demo Menu");
 		
-		if (GUI.Button(new Rect(left, top + step * i++, width, height), "Apply Auth Code")) {
-			TalkingDataSMSPlugin.SuccDelegate succMethod = new TalkingDataSMSPlugin.SuccDelegate(this.OnApplySucc);
-			TalkingDataSMSPlugin.FailedDelegate failedMethod = new TalkingDataSMSPlugin.FailedDelegate(this.OnApplyFailed);
-			TalkingDataSMSPlugin.ApplyAuthCode("86", "mobile", succMethod, failedMethod);
+		if (GUI.Button (new Rect (left, top + step * i++, width, height), "Apply Auth Code")) {
+			TalkingDataEAuth.ApplyAuthCode ("86", mobile, TalkingDataAuthCodeType.smsAuth, account);
 		}
 		
-		if (GUI.Button(new Rect(left, top + step * i++, width, height), "Reapply Auth Code")) {
-			TalkingDataSMSPlugin.SuccDelegate succMethod = new TalkingDataSMSPlugin.SuccDelegate(this.OnApplySucc);
-			TalkingDataSMSPlugin.FailedDelegate failedMethod = new TalkingDataSMSPlugin.FailedDelegate(this.OnApplyFailed);
-			TalkingDataSMSPlugin.ReapplyAuthCode("86", "mobile", "request_id", succMethod, failedMethod);
+		if (GUI.Button (new Rect (left, top + step * i++, width, height), "Reapply Auth Code")) {
+			TalkingDataEAuth.ReapplyAuthCode ("86", mobile, TalkingDataAuthCodeType.voiceCallAuth, account, request_id);
+		}
+
+		if (GUI.Button (new Rect (left, top + step * i++, width, height), "Is Verify Account")) {
+			TalkingDataEAuth.IsVerifyAccount (account);
+		}
+
+		if (GUI.Button (new Rect (left, top + step * i++, width, height), "Is Mobile Match Account")) {
+			TalkingDataEAuth.IsMobileMatchAccount (account, "86", mobile);
 		}
 		
-		if (GUI.Button(new Rect(left, top + step * i++, width, height), "Verify Auth Code")) {
-			TalkingDataSMSPlugin.SuccDelegate succMethod = new TalkingDataSMSPlugin.SuccDelegate(this.OnVerifySucc);
-			TalkingDataSMSPlugin.FailedDelegate failedMethod = new TalkingDataSMSPlugin.FailedDelegate(this.OnVerifyFailed);
-			TalkingDataSMSPlugin.VerifyAuthCode("86", "mobile", "auth_code", succMethod, failedMethod);
+		if (GUI.Button (new Rect (left, top + step * i++, width, height), "Bind")) {
+			TalkingDataEAuth.Bind ("86", mobile, "001178", account);
+		}
+
+		if (GUI.Button (new Rect (left, top + step * i++, width, height), "Unbind")) {
+			TalkingDataEAuth.Unbind ("86", mobile, account);
 		}
 
 		if (GUI.Button (new Rect (left, top + step * i++, width, height), "OnRegister")) {
@@ -117,9 +139,11 @@ public class TalkingDataDemoScript : MonoBehaviour {
 	void Start () {
 		Debug.Log("start...!!!!!!!!!!");
 		TalkingDataPlugin.SetLogEnabled(true);
-		TalkingDataPlugin.SessionStarted("E7538D90715219B3A2272A3E07E69C57", "your_channel_id");
-		TalkingDataSMSPlugin.Init("E7538D90715219B3A2272A3E07E69C57", "your_secret_id");
 		TalkingDataPlugin.SetExceptionReportEnabled(true);
+		TalkingDataPlugin.SessionStarted("E7538D90715219B3A2272A3E07E69C57", "your_channel_id");
+		TalkingDataEAuth.SuccessDelegate successMethod = new TalkingDataEAuth.SuccessDelegate (this.OnEAuthSuccess);
+		TalkingDataEAuth.FailedDelegate failedMethod = new TalkingDataEAuth.FailedDelegate (this.OnEAuthFailed);
+		TalkingDataEAuth.Init("506610b4d5a142809cca181e32d70e21", "7c1573fbd1cc33d336f01838dc2d606e", successMethod, failedMethod);
 #if UNITY_IPHONE
 #if UNITY_5
 		UnityEngine.iOS.NotificationServices.RegisterForNotifications(

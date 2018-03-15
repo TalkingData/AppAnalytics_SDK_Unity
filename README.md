@@ -280,8 +280,8 @@ App Analytics Unity 平台 SDK 由`封装层`和 `Native SDK` 两部分构成，
 	+ (BOOL)handlePushMessage:(NSDictionary *)message;
 	```
 	g) 未选择`易认证`功能则删除以下4部分  
-	删除 `Assets/TalkingDataScripts/TalkingDataSMSPlugin.cs` 文件  
-	删除 `Assets/Plugins/Android/TalkingDataSMSPlugin.jar` 文件  
-	删除 `Assets/Plugins/iOS/TalkingDataSMS.mm` 文件  
-	删除 `Assets/Plugins/iOS/TalkingDataSMS.h` 文件  
+	删除 `Assets/TalkingDataScripts/TalkingDataEAuth.cs` 文件  
+	删除 `Assets/Plugins/Android/TalkingDataEAuthPlugin.jar` 文件  
+	删除 `Assets/Plugins/iOS/TalkingDataEAuth.mm` 文件  
+	删除 `Assets/Plugins/iOS/TalkingDataEAuth.h` 文件  
 	
