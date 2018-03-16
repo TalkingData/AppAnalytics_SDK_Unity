@@ -180,7 +180,6 @@ public class TalkingDataEAuth : MonoBehaviour {
 	
 	void OnRequestSuccess(string args)
 	{
-//		string tmp = "{\"type\":0,\"requestId\":\"43610493\",\"phoneNumber\":\"\",\"phoneNumSeg\":[{\"begin\":\"95078010000\",\"end\":\"95078066666\"},{\"begin\":\"95078066667\",\"end\":\"95078099999\"}]}";
 		Debug.Log ("Unity Plugin onRequestSuccess:" + args);
 		TalkingDataEAuthSuccessArgs succArgs = JsonUtility.FromJson<TalkingDataEAuthSuccessArgs> (args);
 		string requestId = succArgs.requestId != null ? succArgs.requestId : "";

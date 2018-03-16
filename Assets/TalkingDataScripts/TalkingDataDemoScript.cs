@@ -145,16 +145,16 @@ public class TalkingDataDemoScript : MonoBehaviour {
 		TalkingDataEAuth.FailedDelegate failedMethod = new TalkingDataEAuth.FailedDelegate (this.OnEAuthFailed);
 		TalkingDataEAuth.Init("506610b4d5a142809cca181e32d70e21", "7c1573fbd1cc33d336f01838dc2d606e", successMethod, failedMethod);
 #if UNITY_IPHONE
-#if UNITY_5
+#if UNITY_5 || UNITY_5_6_OR_NEWER
 		UnityEngine.iOS.NotificationServices.RegisterForNotifications(
 			UnityEngine.iOS.NotificationType.Alert |
 			UnityEngine.iOS.NotificationType.Badge |
 			UnityEngine.iOS.NotificationType.Sound);
 #else
-		NotificationServices.RegisterForRemoteNotificationTypes(
-			RemoteNotificationType.Alert |
-			RemoteNotificationType.Badge |
-			RemoteNotificationType.Sound);
+		UnityEngine.iOS.NotificationServices.RegisterForNotifications(
+			UnityEngine.iOS.NotificationType.Alert |
+			UnityEngine.iOS.NotificationType.Badge |
+			UnityEngine.iOS.NotificationType.Sound);
 #endif
 #endif
 	}
