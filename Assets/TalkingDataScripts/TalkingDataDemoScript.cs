@@ -13,6 +13,7 @@ public class TalkingDataDemoScript : MonoBehaviour {
 	const int step = 60;
 	const string mobile = "13800138000";
 	const string account = "user01";
+	const string smsId = "";
 	string request_id = null;
 
 	void OnEAuthSuccess(TalkingDataEAuthType type, string requestId, string phoneNumber, TalkingDataEAuthPhoneNumSeg[] phoneNumSeg) {
@@ -50,11 +51,11 @@ public class TalkingDataDemoScript : MonoBehaviour {
 		GUI.Box(new Rect(10, 10, Screen.width - 20, Screen.height - 20), "Demo Menu");
 		
 		if (GUI.Button (new Rect (left, top + step * i++, width, height), "Apply Auth Code")) {
-			TalkingDataEAuth.ApplyAuthCode ("86", mobile, TalkingDataAuthCodeType.smsAuth, account);
+			TalkingDataEAuth.ApplyAuthCode ("86", mobile, TalkingDataAuthCodeType.smsAuth, account, smsId);
 		}
 		
 		if (GUI.Button (new Rect (left, top + step * i++, width, height), "Reapply Auth Code")) {
-			TalkingDataEAuth.ReapplyAuthCode ("86", mobile, TalkingDataAuthCodeType.voiceCallAuth, account, request_id);
+			TalkingDataEAuth.ReapplyAuthCode ("86", mobile, TalkingDataAuthCodeType.voiceCallAuth, account, smsId, request_id);
 		}
 
 		if (GUI.Button (new Rect (left, top + step * i++, width, height), "Is Verify Account")) {

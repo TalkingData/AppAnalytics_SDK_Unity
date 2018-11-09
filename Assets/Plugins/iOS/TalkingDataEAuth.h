@@ -72,6 +72,8 @@ typedef NS_ENUM(NSInteger, TDAuthCodeType) {
  *            获取认证码的方式
  * @param acctName
  *            用户登录时所使用的用户名
+ * @param smsId
+ *            短信模板ID
  * @param delegate
  *            申请认证码异步回调接口
  */
@@ -79,6 +81,7 @@ typedef NS_ENUM(NSInteger, TDAuthCodeType) {
                mobile:(NSString *)mobile
          authCodeType:(TDAuthCodeType)type
           accountName:(NSString *)acctName
+                smsId:(NSString *)smsId
              delegate:(id<TalkingDataEAuthDelegate>)delegate;
 
 /**
@@ -92,6 +95,10 @@ typedef NS_ENUM(NSInteger, TDAuthCodeType) {
  *            获取认证码的方式
  * @param acctName
  *            用户登录时所使用的用户名
+ * @param smsId
+ *            短信模板ID
+ * @param requestId
+ *            申请认证码返回的ID
  * @param delegate
  *            申请认证码异步回调接口
  */
@@ -99,6 +106,7 @@ typedef NS_ENUM(NSInteger, TDAuthCodeType) {
                  mobile:(NSString *)mobile
            authCodeType:(TDAuthCodeType)type
             accountName:(NSString *)acctName
+                  smsId:(NSString *)smsId
               requestId:(NSString *)requestId
                delegate:(id<TalkingDataEAuthDelegate>)delegate;
 

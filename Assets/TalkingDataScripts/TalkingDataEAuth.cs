@@ -35,10 +35,10 @@ public class TalkingDataEAuth : MonoBehaviour {
 	private static extern void tdEAuthInit(string appId, string secretId);
 	
 	[DllImport ("__Internal")]
-	private static extern void tdEAuthApplyAuthCode(string countryCode, string mobile, TalkingDataAuthCodeType type, string accountName);
+	private static extern void tdEAuthApplyAuthCode(string countryCode, string mobile, TalkingDataAuthCodeType type, string accountName, string smsId);
 	
 	[DllImport ("__Internal")]
-	private static extern void tdEAuthReapplyAuthCode(string countryCode, string mobile, TalkingDataAuthCodeType type, string accountName, string requestId);
+	private static extern void tdEAuthReapplyAuthCode(string countryCode, string mobile, TalkingDataAuthCodeType type, string accountName, string smsId, string requestId);
 	
 	[DllImport ("__Internal")]
 	private static extern void tdEAuthIsVerifyAccount(string accountName);
@@ -84,13 +84,13 @@ public class TalkingDataEAuth : MonoBehaviour {
 		}
 	}
 	
-	public static void ApplyAuthCode(string countryCode, string mobile, TalkingDataAuthCodeType type, string accountName)
+	public static void ApplyAuthCode(string countryCode, string mobile, TalkingDataAuthCodeType type, string accountName, string smsId)
 	{
 		// Call plugin only when running on real device
 		if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
 		{
 #if UNITY_IPHONE
-			tdEAuthApplyAuthCode(countryCode, mobile, type, accountName);
+			tdEAuthApplyAuthCode(countryCode, mobile, type, accountName, smsId);
 #endif
 #if UNITY_ANDROID
 			AndroidJavaClass tdEAuthClass = new AndroidJavaClass("com.tendcloud.tenddata.unityplugin.TalkingDataEAuthPlugin");
@@ -101,13 +101,13 @@ public class TalkingDataEAuth : MonoBehaviour {
 		}
 	}
 	
-	public static void ReapplyAuthCode(string countryCode, string mobile, TalkingDataAuthCodeType type, string accountName, string requestId)
+	public static void ReapplyAuthCode(string countryCode, string mobile, TalkingDataAuthCodeType type, string accountName, string smsId, string requestId)
 	{
 		// Call plugin only when running on real device
 		if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
 		{
 #if UNITY_IPHONE
-			tdEAuthReapplyAuthCode(countryCode, mobile, type, accountName, requestId);
+			tdEAuthReapplyAuthCode(countryCode, mobile, type, accountName, smsId, requestId);
 #endif
 #if UNITY_ANDROID
 			AndroidJavaClass tdEAuthClass = new AndroidJavaClass("com.tendcloud.tenddata.unityplugin.TalkingDataEAuthPlugin");

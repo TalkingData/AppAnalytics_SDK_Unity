@@ -36,19 +36,21 @@ extern "C" {
                            secretId:tdEAuthCreateNSString(secretId)];
     }
     
-    void tdEAuthApplyAuthCode(const char *countryCode, const char *mobile, TDAuthCodeType type, const char *accountName) {
+    void tdEAuthApplyAuthCode(const char *countryCode, const char *mobile, TDAuthCodeType type, const char *accountName, const char *smsId) {
         [TalkingDataEAuth applyAuthCode:tdEAuthCreateNSString(countryCode)
                                  mobile:tdEAuthCreateNSString(mobile)
                            authCodeType:type
                             accountName:tdEAuthCreateNSString(accountName)
+                                  smsId:tdEAuthCreateNSString(smsId)
                                delegate:eAuthCallback];
     }
     
-    void tdEAuthReapplyAuthCode(const char *countryCode, const char *mobile, TDAuthCodeType type, const char *accountName, const char *requestId) {
+    void tdEAuthReapplyAuthCode(const char *countryCode, const char *mobile, TDAuthCodeType type, const char *accountName, const char *smsId, const char *requestId) {
         [TalkingDataEAuth reapplyAuthCode:tdEAuthCreateNSString(countryCode)
                                    mobile:tdEAuthCreateNSString(mobile)
                              authCodeType:type
                               accountName:tdEAuthCreateNSString(accountName)
+                                    smsId:tdEAuthCreateNSString(smsId)
                                 requestId:tdEAuthCreateNSString(requestId)
                                  delegate:eAuthCallback];
     }
