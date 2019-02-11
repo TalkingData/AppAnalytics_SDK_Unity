@@ -204,9 +204,8 @@ App Analytics Unity 平台 SDK 由`封装层`和 `Native SDK` 两部分构成，
 	```
 	+ (void)trackPageBegin:(NSString *)pageName;
 	+ (void)trackPageEnd:(NSString *)pageName;
-	```
-	d) 未选择`灵动分析`功能无需删除封装层代码  
-	e) 未选择`用户质量评估`功能则删除以下3部分  
+	``` 
+	d) 未选择`用户质量评估`功能则删除以下3部分  
 	删除 `Assets/TalkingDataScripts/TalkingDataPlugin.cs` 文件中如下代码：
 	
 	```
@@ -231,7 +230,7 @@ App Analytics Unity 平台 SDK 由`封装层`和 `Native SDK` 两部分构成，
 	```
 		+ (void)setAntiCheatingEnabled:(BOOL)enabled;
 	```
-	f) 未选择`推送营销`功能则删除以下３部分  
+	e) 未选择`推送营销`功能则删除以下３部分  
 	删除 `Assets/TalkingDataScripts/TalkingDataPlugin.cs` 文件中如下代码：
 	
 	```
@@ -279,7 +278,7 @@ App Analytics Unity 平台 SDK 由`封装层`和 `Native SDK` 两部分构成，
 	+ (void)setDeviceToken:(NSData *)deviceToken;
 	+ (BOOL)handlePushMessage:(NSDictionary *)message;
 	```
-	g) 未选择`易认证`功能则删除以下4部分  
+	f) 未选择`易认证`功能则删除以下4部分  
 	删除 `Assets/TalkingDataScripts/TalkingDataEAuth.cs` 文件  
 	删除 `Assets/Plugins/Android/TalkingDataEAuthPlugin.jar` 文件  
 	删除 `Assets/Plugins/iOS/TalkingDataEAuth.mm` 文件  
