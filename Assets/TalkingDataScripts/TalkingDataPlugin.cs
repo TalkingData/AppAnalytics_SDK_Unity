@@ -87,7 +87,7 @@ public class TalkingDataPlugin {
 	private static extern void tdTrackPageEnd(string pageName);
 	
 	[DllImport ("__Internal")]
-	private static extern void tdSetDeviceToken(string deviceToken);
+	private static extern void tdSetDeviceToken(byte[] deviceToken, int length);
 	
 	[DllImport ("__Internal")]
 	private static extern void tdHandlePushMessage(string message);
@@ -464,10 +464,9 @@ public class TalkingDataPlugin {
 #if UNITY_5 || UNITY_5_6_OR_NEWER
 	public static void SetDeviceToken() {
 		if (!hasTokenBeenObtained) {
-			byte[] byteToken = UnityEngine.iOS.NotificationServices.deviceToken;
-			if(byteToken != null) {
-				string deviceToken = System.BitConverter.ToString(byteToken).Replace("-","");
-				tdSetDeviceToken(deviceToken);
+			byte[] deviceToken = UnityEngine.iOS.NotificationServices.deviceToken;
+			if(deviceToken != null) {
+				tdSetDeviceToken(deviceToken, deviceToken.Length);
 				hasTokenBeenObtained = true;
 			}
 		}
@@ -490,10 +489,9 @@ public class TalkingDataPlugin {
 #else
 	public static void SetDeviceToken() {
 		if (!hasTokenBeenObtained) {
-			byte[] byteToken = UnityEngine.iOS.NotificationServices.deviceToken;
-			if(byteToken != null) {
-				string deviceToken = System.BitConverter.ToString(byteToken).Replace("-","");
-				tdSetDeviceToken(deviceToken);
+			byte[] deviceToken = UnityEngine.iOS.NotificationServices.deviceToken;
+			if(deviceToken != null) {
+                tdSetDeviceToken(deviceToken, deviceToken.Length);
 				hasTokenBeenObtained = true;
 			}
 		}

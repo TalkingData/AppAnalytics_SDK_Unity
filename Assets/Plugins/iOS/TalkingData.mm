@@ -165,9 +165,9 @@ extern "C" {
         [TalkingData trackPageEnd:tdCreateNSString(pageName)];
     }
     
-    void tdSetDeviceToken(const char *deviceToken) {
-        NSString *token = tdCreateNSString(deviceToken);
-        [TalkingData setDeviceToken:(id)token];
+    void tdSetDeviceToken(const void *deviceToken, int length) {
+        NSData *tokenData = [NSData dataWithBytes:deviceToken length:length];
+        [TalkingData setDeviceToken:tokenData];
     }
     
     void tdHandlePushMessage(const char *message) {
