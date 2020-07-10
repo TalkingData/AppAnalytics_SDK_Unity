@@ -209,6 +209,7 @@ public class TalkingDataPlugin {
 #if UNITY_ANDROID
 			AndroidJavaClass tCAgent = new AndroidJavaClass("com.tendcloud.tenddata.TCAgent");
 			AndroidJavaClass unityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+			AndroidJavaObject activity = unityClass.GetStatic<AndroidJavaObject>("currentActivity");
 			oaid = tCAgent.CallStatic<string>("getOAID", activity);
 #endif
 		}
