@@ -202,6 +202,19 @@ public class TalkingDataPlugin {
 #endif
 		}
 	}
+	private static string oaid = null;
+	public static string GetOAID() {
+		//if the platform is real device
+		if (oaid == null && Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor) {
+#if UNITY_ANDROID
+			AndroidJavaClass tCAgent = new AndroidJavaClass("com.tendcloud.tenddata.TCAgent");
+			AndroidJavaClass unityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+			AndroidJavaObject activity = unityClass.GetStatic<AndroidJavaObject>("currentActivity");
+			oaid = tCAgent.CallStatic<string>("getOAID", activity);
+#endif
+		}
+		return oaid;
+	}
 	
 	public static void OnRegister(string accountId, TalkingDataAccountType type, string name)
 	{
