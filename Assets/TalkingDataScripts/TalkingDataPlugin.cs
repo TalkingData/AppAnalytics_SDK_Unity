@@ -90,6 +90,9 @@ public static class TalkingDataPlugin
 
     [DllImport("__Internal")]
     private static extern void TDAATrackEventParameters(string eventId, string eventLabel, string parameters);
+
+    [DllImport("__Internal")]
+    private static extern void TDAATrackEventValue(string eventId, string eventLabel, string parameters, double eventValue);
 #endif
 
 #if TDAA_PAGE
@@ -462,6 +465,70 @@ public static class TalkingDataPlugin
             else
             {
                 TDAATrackEventParameters(eventId, eventLabel, null);
+            }
+#endif
+        }
+    }
+
+    public static void TrackEventWithValue(string eventId, string eventLabel, Dictionary<string, object> parameters, double eventValue)
+    {
+        if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
+        {
+#if UNITY_ANDROID
+            if (appAnalyticsClass != null)
+            {
+                if (parameters != null && parameters.Count > 0)
+                {
+                    int count = parameters.Count;
+                    AndroidJavaObject map = new AndroidJavaObject("java.util.HashMap", count);
+                    IntPtr method_Put = AndroidJNIHelper.GetMethodID(map.GetRawClass(), "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+                    object[] args = new object[2];
+                    foreach (KeyValuePair<string, object> kvp in parameters)
+                    {
+                        args[0] = new AndroidJavaObject("java.lang.String", kvp.Key);
+                        args[1] = typeof(string).IsInstanceOfType(kvp.Value)
+                            ? new AndroidJavaObject("java.lang.String", kvp.Value)
+                            : new AndroidJavaObject("java.lang.Double", "" + kvp.Value);
+                        AndroidJNI.CallObjectMethod(map.GetRawObject(), method_Put, AndroidJNIHelper.CreateJNIArgArray(args));
+                    }
+                    appAnalyticsClass.CallStatic("onEvent", GetCurrentActivity(), eventId, eventLabel, map, eventValue);
+                    map.Dispose();
+                }
+                else
+                {
+                    appAnalyticsClass.CallStatic("onEvent", GetCurrentActivity(), eventId, eventLabel, null, eventValue);
+                }
+            }
+#endif
+#if UNITY_IPHONE
+            if (parameters != null && parameters.Count > 0)
+            {
+                string parameterStr = "{";
+                foreach (KeyValuePair<string, object> kvp in parameters)
+                {
+                    if (kvp.Value is string)
+                    {
+                        parameterStr += "\"" + kvp.Key + "\":\"" + kvp.Value + "\",";
+                    }
+                    else
+                    {
+                        try
+                        {
+                            double tmp = System.Convert.ToDouble(kvp.Value);
+                            parameterStr += "\"" + kvp.Key + "\":" + tmp + ",";
+                        }
+                        catch (System.Exception)
+                        {
+                        }
+                    }
+                }
+                parameterStr = parameterStr.TrimEnd(',');
+                parameterStr += "}";
+                TDAATrackEventValue(eventId, eventLabel, parameterStr, eventValue);
+            }
+            else
+            {
+                TDAATrackEventValue(eventId, eventLabel, null, eventValue);
             }
 #endif
         }

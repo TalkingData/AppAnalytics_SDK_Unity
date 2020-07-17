@@ -102,6 +102,11 @@ public class TDAADemoScript : MonoBehaviour
             };
             TalkingDataPlugin.TrackEventWithParameters("action_id", "action_label", dic);
         }
+
+        if (GUI.Button(new Rect(left, top + (step * i++), width, height), "TrackEventWithValue"))
+        {
+            TalkingDataPlugin.TrackEventWithValue("action_id", "action_label", null, 9.11);
+        }
 #endif
 
 #if TDAA_PAGE

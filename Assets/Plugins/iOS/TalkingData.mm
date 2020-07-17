@@ -135,9 +135,22 @@ void TDAATrackEventLabel(const char *eventId, const char *eventLabel) {
 
 void TDAATrackEventParameters(const char *eventId, const char *eventLabel, const char *parameters) {
     NSString *parameterStr = TDAACreateNSString(parameters);
-    NSData *parameterData = [parameterStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *parameterDic = [NSJSONSerialization JSONObjectWithData:parameterData options:0 error:nil];
+    NSDictionary *parameterDic = nil;
+    if (parameterStr) {
+        NSData *parameterData = [parameterStr dataUsingEncoding:NSUTF8StringEncoding];
+        parameterDic = [NSJSONSerialization JSONObjectWithData:parameterData options:0 error:nil];
+    }
     [TalkingData trackEvent:TDAACreateNSString(eventId) label:TDAACreateNSString(eventLabel) parameters:parameterDic];
+}
+
+void TDAATrackEventValue(const char *eventId, const char *eventLabel, const char *parameters, double eventValue) {
+    NSString *parameterStr = TDAACreateNSString(parameters);
+    NSDictionary *parameterDic = nil;
+    if (parameterStr) {
+        NSData *parameterData = [parameterStr dataUsingEncoding:NSUTF8StringEncoding];
+        parameterDic = [NSJSONSerialization JSONObjectWithData:parameterData options:0 error:nil];
+    }
+    [TalkingData trackEvent:TDAACreateNSString(eventId) label:TDAACreateNSString(eventLabel) parameters:parameterDic value:eventValue];
 }
 #endif
 
