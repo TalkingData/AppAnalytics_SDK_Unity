@@ -9,7 +9,7 @@ using System.Collections;
 #endif
 
 
-public enum TalkingDataAccountType
+public enum TalkingDataProfileType
 {
     ANONYMOUS = 0,
     REGISTERED = 1,
@@ -59,10 +59,10 @@ public static class TalkingDataPlugin
     private static extern void TDAASetLocation(double latitude, double longitude);
 
     [DllImport("__Internal")]
-    private static extern void TDAAOnRegister(string accountId, int type, string name);
+    private static extern void TDAAOnRegister(string profileId, int type, string name);
 
     [DllImport("__Internal")]
-    private static extern void TDAAOnLogin(string accountId, int type, string name);
+    private static extern void TDAAOnLogin(string profileId, int type, string name);
 
 #if TDAA_STANDARD
     [DllImport("__Internal")]
@@ -75,10 +75,10 @@ public static class TalkingDataPlugin
     private static extern void TDAAOnViewShoppingCart(string shoppingCartJson);
 
     [DllImport("__Internal")]
-    private static extern void TDAAOnPlaceOrder(string account, string orderJson);
+    private static extern void TDAAOnPlaceOrder(string profile, string orderJson);
 
     [DllImport("__Internal")]
-    private static extern void TDAAOnOrderPaySucc(string account, string payType, string orderJson);
+    private static extern void TDAAOnOrderPaySucc(string profile, string payType, string orderJson);
 #endif
 
 #if TDAA_CUSTOM
@@ -253,40 +253,40 @@ public static class TalkingDataPlugin
         }
     }
 
-    public static void OnRegister(string accountId, TalkingDataAccountType type, string name)
+    public static void OnRegister(string profileId, TalkingDataProfileType type, string name)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (appAnalyticsClass != null)
             {
-                AndroidJavaClass enumClass = new AndroidJavaClass("com.tendcloud.tenddata.TDAccount$AccountType");
+                AndroidJavaClass enumClass = new AndroidJavaClass("com.tendcloud.tenddata.TDProfile$ProfileType");
                 AndroidJavaObject typeObj = enumClass.CallStatic<AndroidJavaObject>("valueOf", type.ToString());
-                appAnalyticsClass.CallStatic("onRegister", accountId, typeObj, name);
+                appAnalyticsClass.CallStatic("onRegister", profileId, typeObj, name);
                 enumClass.Dispose();
             }
 #endif
 #if UNITY_IPHONE
-            TDAAOnRegister(accountId, (int)type, name);
+            TDAAOnRegister(profileId, (int)type, name);
 #endif
         }
     }
 
-    public static void OnLogin(string accountId, TalkingDataAccountType type, string name)
+    public static void OnLogin(string profileId, TalkingDataProfileType type, string name)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (appAnalyticsClass != null)
             {
-                AndroidJavaClass enumClass = new AndroidJavaClass("com.tendcloud.tenddata.TDAccount$AccountType");
+                AndroidJavaClass enumClass = new AndroidJavaClass("com.tendcloud.tenddata.TDProfile$ProfileType");
                 AndroidJavaObject typeObj = enumClass.CallStatic<AndroidJavaObject>("valueOf", type.ToString());
-                appAnalyticsClass.CallStatic("onLogin", accountId, typeObj, name);
+                appAnalyticsClass.CallStatic("onLogin", profileId, typeObj, name);
                 enumClass.Dispose();
             }
 #endif
 #if UNITY_IPHONE
-            TDAAOnLogin(accountId, (int)type, name);
+            TDAAOnLogin(profileId, (int)type, name);
 #endif
         }
     }
@@ -340,34 +340,34 @@ public static class TalkingDataPlugin
         }
     }
 
-    public static void OnPlaceOrder(string accountId, TalkingDataOrder order)
+    public static void OnPlaceOrder(string profileId, TalkingDataOrder order)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (appAnalyticsClass != null)
             {
-                appAnalyticsClass.CallStatic("onPlaceOrder", accountId, order.javaObj);
+                appAnalyticsClass.CallStatic("onPlaceOrder", profileId, order.javaObj);
             }
 #endif
 #if UNITY_IPHONE
-            TDAAOnPlaceOrder(accountId, order.ToString());
+            TDAAOnPlaceOrder(profileId, order.ToString());
 #endif
         }
     }
 
-    public static void OnOrderPaySucc(string accountId, string payType, TalkingDataOrder order)
+    public static void OnOrderPaySucc(string profileId, string payType, TalkingDataOrder order)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (appAnalyticsClass != null)
             {
-                appAnalyticsClass.CallStatic("onOrderPaySucc", accountId, payType, order.javaObj);
+                appAnalyticsClass.CallStatic("onOrderPaySucc", profileId, payType, order.javaObj);
             }
 #endif
 #if UNITY_IPHONE
-            TDAAOnOrderPaySucc(accountId, payType, order.ToString());
+            TDAAOnOrderPaySucc(profileId, payType, order.ToString());
 #endif
         }
     }

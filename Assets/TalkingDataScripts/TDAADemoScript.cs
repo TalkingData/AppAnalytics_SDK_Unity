@@ -35,12 +35,12 @@ public class TDAADemoScript : MonoBehaviour
 
         if (GUI.Button(new Rect(left, top + (step * i++), width, height), "OnRegister"))
         {
-            TalkingDataPlugin.OnRegister("user01", TalkingDataAccountType.ANONYMOUS, "abc");
+            TalkingDataPlugin.OnRegister("user01", TalkingDataProfileType.ANONYMOUS, "abc");
         }
 
         if (GUI.Button(new Rect(left, top + (step * i++), width, height), "OnLogin"))
         {
-            TalkingDataPlugin.OnLogin("user01", TalkingDataAccountType.TYPE1, "abc");
+            TalkingDataPlugin.OnLogin("user01", TalkingDataProfileType.TYPE1, "abc");
         }
 
 #if TDAA_STANDARD

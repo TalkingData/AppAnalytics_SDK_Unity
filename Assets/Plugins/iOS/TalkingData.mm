@@ -47,12 +47,12 @@ void TDAASetLocation(double latitude, double longitude) {
     [TalkingData setLatitude:latitude longitude:longitude];
 }
 
-void TDAAOnRegister(const char *accountId, int type, const char *name) {
-    [TalkingData onRegister:TDAACreateNSString(accountId) type:(TDAccountType)type name:TDAACreateNSString(name)];
+void TDAAOnRegister(const char *profileId, int type, const char *name) {
+    [TalkingData onRegister:TDAACreateNSString(profileId) type:(TDProfileType)type name:TDAACreateNSString(name)];
 }
 
-void TDAAOnLogin(const char *accountId, int type, const char *name) {
-    [TalkingData onLogin:TDAACreateNSString(accountId) type:(TDAccountType)type name:TDAACreateNSString(name)];
+void TDAAOnLogin(const char *profileId, int type, const char *name) {
+    [TalkingData onLogin:TDAACreateNSString(profileId) type:(TDProfileType)type name:TDAACreateNSString(name)];
 }
 
 #ifdef TDAA_STANDARD
@@ -87,7 +87,7 @@ void TDAAOnViewShoppingCart(const char *shoppingCartJson) {
     [TalkingData onViewShoppingCart:shoppingCart];
 }
 
-void TDAAOnPlaceOrder(const char *accountId, const char *orderJson) {
+void TDAAOnPlaceOrder(const char *profileId, const char *orderJson) {
     NSString *orderStr = TDAACreateNSString(orderJson);
     NSData *orderData = [orderStr dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *orderDic = [NSJSONSerialization JSONObjectWithData:orderData options:0 error:nil];
@@ -102,10 +102,10 @@ void TDAAOnPlaceOrder(const char *accountId, const char *orderJson) {
              unitPrice:[item[@"unitPrice"] intValue]
                 amount:[item[@"amount"] intValue]];
     }
-    [TalkingData onPlaceOrder:TDAACreateNSString(accountId) order:order];
+    [TalkingData onPlaceOrder:TDAACreateNSString(profileId) order:order];
 }
 
-void TDAAOnOrderPaySucc(const char *accountId, const char *payType, const char *orderJson) {
+void TDAAOnOrderPaySucc(const char *profileId, const char *payType, const char *orderJson) {
     NSString *orderStr = TDAACreateNSString(orderJson);
     NSData *orderData = [orderStr dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *orderDic = [NSJSONSerialization JSONObjectWithData:orderData options:0 error:nil];
@@ -120,7 +120,7 @@ void TDAAOnOrderPaySucc(const char *accountId, const char *payType, const char *
              unitPrice:[item[@"unitPrice"] intValue]
                 amount:[item[@"amount"] intValue]];
     }
-    [TalkingData onOrderPaySucc:TDAACreateNSString(accountId) payType:TDAACreateNSString(payType) order:order];
+    [TalkingData onOrderPaySucc:TDAACreateNSString(profileId) payType:TDAACreateNSString(payType) order:order];
 }
 #endif
 
