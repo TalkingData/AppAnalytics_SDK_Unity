@@ -87,40 +87,16 @@ void TDAAOnViewShoppingCart(const char *shoppingCartJson) {
     [TalkingData onViewShoppingCart:shoppingCart];
 }
 
-void TDAAOnPlaceOrder(const char *profileId, const char *orderJson) {
-    NSString *orderStr = TDAACreateNSString(orderJson);
-    NSData *orderData = [orderStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *orderDic = [NSJSONSerialization JSONObjectWithData:orderData options:0 error:nil];
-    TalkingDataOrder *order = [TalkingDataOrder createOrder:orderDic[@"orderId"]
-                                                      total:[orderDic[@"total"] intValue]
-                                               currencyType:orderDic[@"currencyType"]];
-    NSArray *items = orderDic[@"items"];
-    for (NSDictionary *item in items) {
-        [order addItem:item[@"itemId"]
-              category:item[@"category"]
-                  name:item[@"name"]
-             unitPrice:[item[@"unitPrice"] intValue]
-                amount:[item[@"amount"] intValue]];
-    }
-    [TalkingData onPlaceOrder:TDAACreateNSString(profileId) order:order];
+void TDAAOnPlaceOrder(const char *orderId, int amount, const char *currencyType) {
+    [TalkingData onPlaceOrder:TDAACreateNSString(orderId) amount:amount currencyType:TDAACreateNSString(currencyType)];
 }
 
-void TDAAOnOrderPaySucc(const char *profileId, const char *payType, const char *orderJson) {
-    NSString *orderStr = TDAACreateNSString(orderJson);
-    NSData *orderData = [orderStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *orderDic = [NSJSONSerialization JSONObjectWithData:orderData options:0 error:nil];
-    TalkingDataOrder *order = [TalkingDataOrder createOrder:orderDic[@"orderId"]
-                                                      total:[orderDic[@"total"] intValue]
-                                               currencyType:orderDic[@"currencyType"]];
-    NSArray *items = orderDic[@"items"];
-    for (NSDictionary *item in items) {
-        [order addItem:item[@"itemId"]
-              category:item[@"category"]
-                  name:item[@"name"]
-             unitPrice:[item[@"unitPrice"] intValue]
-                amount:[item[@"amount"] intValue]];
-    }
-    [TalkingData onOrderPaySucc:TDAACreateNSString(profileId) payType:TDAACreateNSString(payType) order:order];
+void TDAAOnOrderPaySucc(const char *orderId, int amount, const char *currencyType, const char *paymentType) {
+    [TalkingData onOrderPaySucc:TDAACreateNSString(orderId) amount:amount currencyType:TDAACreateNSString(currencyType) paymentType:TDAACreateNSString(paymentType)];
+}
+
+void TDAAOnCancelOrder(const char *orderId, int amount, const char *currencyType) {
+    [TalkingData onCancelOrder:TDAACreateNSString(orderId) amount:amount currencyType:TDAACreateNSString(currencyType)];
 }
 #endif
 

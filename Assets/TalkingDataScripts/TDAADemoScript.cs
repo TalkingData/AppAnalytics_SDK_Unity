@@ -67,18 +67,17 @@ public class TDAADemoScript : MonoBehaviour
 
         if (GUI.Button(new Rect(left, top + (step * i++), width, height), "OnPlaceOrder"))
         {
-            TalkingDataOrder order = TalkingDataOrder.CreateOrder("order01", 2466400, "CNY");
-            order.AddItem("A1660", "手机", "iPhone 7", 538800, 2);
-            order.AddItem("MLH12CH", "电脑", "MacBook Pro", 1388800, 1);
-            TalkingDataPlugin.OnPlaceOrder("user01", order);
+            TalkingDataPlugin.OnPlaceOrder("order01", 2466400, "CNY");
         }
 
         if (GUI.Button(new Rect(left, top + (step * i++), width, height), "OnOrderPaySucc"))
         {
-            TalkingDataOrder order = TalkingDataOrder.CreateOrder("order01", 2466400, "CNY");
-            order.AddItem("A1660", "手机", "iPhone 7", 538800, 2);
-            order.AddItem("MLH12CH", "电脑", "MacBook Pro", 1388800, 1);
-            TalkingDataPlugin.OnOrderPaySucc("user01", "AliPay", order);
+            TalkingDataPlugin.OnOrderPaySucc("order01", 2466400, "CNY", "AliPay");
+        }
+
+        if (GUI.Button(new Rect(left, top + (step * i++), width, height), "OnCancelOrder"))
+        {
+            TalkingDataPlugin.OnCancelOrder("order01", 2466400, "CNY");
         }
 #endif
 

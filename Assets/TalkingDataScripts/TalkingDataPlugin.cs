@@ -75,10 +75,13 @@ public static class TalkingDataPlugin
     private static extern void TDAAOnViewShoppingCart(string shoppingCartJson);
 
     [DllImport("__Internal")]
-    private static extern void TDAAOnPlaceOrder(string profile, string orderJson);
+    private static extern void TDAAOnPlaceOrder(string orderId, int amount, string currencyType);
 
     [DllImport("__Internal")]
-    private static extern void TDAAOnOrderPaySucc(string profile, string payType, string orderJson);
+    private static extern void TDAAOnOrderPaySucc(string orderId, int amount, string currencyType, string paymentType);
+
+    [DllImport("__Internal")]
+    private static extern void TDAAOnCancelOrder(string orderId, int amount, string currencyType);
 #endif
 
 #if TDAA_CUSTOM
@@ -340,38 +343,54 @@ public static class TalkingDataPlugin
         }
     }
 
-    public static void OnPlaceOrder(string profileId, TalkingDataOrder order)
+    public static void OnPlaceOrder(string orderId, int amount, string currencyType)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (appAnalyticsClass != null)
             {
-                appAnalyticsClass.CallStatic("onPlaceOrder", profileId, order.javaObj);
+                appAnalyticsClass.CallStatic("onPlaceOrder", orderId, amount, currencyType);
             }
 #endif
 #if UNITY_IPHONE
-            TDAAOnPlaceOrder(profileId, order.ToString());
+            TDAAOnPlaceOrder(orderId, amount, currencyType);
 #endif
         }
     }
 
-    public static void OnOrderPaySucc(string profileId, string payType, TalkingDataOrder order)
+    public static void OnOrderPaySucc(string orderId, int amount, string currencyType, string paymentType)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (appAnalyticsClass != null)
             {
-                appAnalyticsClass.CallStatic("onOrderPaySucc", profileId, payType, order.javaObj);
+                appAnalyticsClass.CallStatic("onOrderPaySucc", orderId, amount, currencyType, paymentType);
             }
 #endif
 #if UNITY_IPHONE
-            TDAAOnOrderPaySucc(profileId, payType, order.ToString());
+            TDAAOnOrderPaySucc(orderId, amount, currencyType, paymentType);
 #endif
         }
     }
 #endif
+
+    public static void OnCancelOrder(string orderId, int amount, string currencyType)
+    {
+        if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
+        {
+#if UNITY_ANDROID
+            if (appAnalyticsClass != null)
+            {
+                appAnalyticsClass.CallStatic("onCancelOrder", orderId, amount, currencyType);
+            }
+#endif
+#if UNITY_IPHONE
+            TDAAOnCancelOrder(orderId, amount, currencyType);
+#endif
+        }
+    }
 
 #if TDAA_CUSTOM
     public static void TrackEvent(string eventId)
