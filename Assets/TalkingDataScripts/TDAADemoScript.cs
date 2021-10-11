@@ -128,14 +128,6 @@ public class TDAADemoScript : MonoBehaviour
         TalkingDataPlugin.BackgroundSessionEnabled();
         TalkingDataPlugin.SessionStarted("your_app_id", "your_channel_id");
         TalkingDataPlugin.SetExceptionReportEnabled(true);
-#if TDAA_PUSH
-#if UNITY_IPHONE
-        UnityEngine.iOS.NotificationServices.RegisterForNotifications(
-            UnityEngine.iOS.NotificationType.Alert |
-            UnityEngine.iOS.NotificationType.Badge |
-            UnityEngine.iOS.NotificationType.Sound);
-#endif
-#endif
     }
 
     private void Update()
@@ -144,10 +136,6 @@ public class TDAADemoScript : MonoBehaviour
         {
             Application.Quit();
         }
-#if TDAA_PUSH
-        TalkingDataPlugin.SetDeviceToken();
-        TalkingDataPlugin.HandlePushMessage();
-#endif
     }
 
     private void OnDestroy()

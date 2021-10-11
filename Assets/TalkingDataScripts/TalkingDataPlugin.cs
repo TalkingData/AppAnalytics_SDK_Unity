@@ -105,16 +105,6 @@ public static class TalkingDataPlugin
     [DllImport("__Internal")]
     private static extern void TDAATrackPageEnd(string pageName);
 #endif
-
-#if TDAA_PUSH
-    [DllImport("__Internal")]
-    private static extern void TDAASetDeviceToken(byte[] deviceToken, int length);
-
-    [DllImport("__Internal")]
-    private static extern void TDAAHandlePushMessage(string message);
-
-    private static bool hasTokenBeenObtained = false;
-#endif
 #endif
 
 #if UNITY_ANDROID
@@ -585,51 +575,6 @@ public static class TalkingDataPlugin
             TDAATrackPageEnd(pageName);
 #endif
         }
-    }
-#endif
-
-#if TDAA_PUSH
-    public static void SetDeviceToken()
-    {
-#if UNITY_IPHONE
-        if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
-        {
-            if (!hasTokenBeenObtained)
-            {
-                byte[] deviceToken = UnityEngine.iOS.NotificationServices.deviceToken;
-                if (deviceToken != null)
-                {
-                    TDAASetDeviceToken(deviceToken, deviceToken.Length);
-                    hasTokenBeenObtained = true;
-                }
-            }
-        }
-#endif
-    }
-
-    public static void HandlePushMessage()
-    {
-#if UNITY_IPHONE
-        if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
-        {
-            UnityEngine.iOS.RemoteNotification[] notifications = UnityEngine.iOS.NotificationServices.remoteNotifications;
-            if (notifications != null)
-            {
-                UnityEngine.iOS.NotificationServices.ClearRemoteNotifications();
-                foreach (UnityEngine.iOS.RemoteNotification rn in notifications)
-                {
-                    foreach (DictionaryEntry de in rn.userInfo)
-                    {
-                        if (de.Key.ToString().Equals("sign"))
-                        {
-                            string sign = de.Value.ToString();
-                            TDAAHandlePushMessage(sign);
-                        }
-                    }
-                }
-            }
-        }
-#endif
     }
 #endif
 }

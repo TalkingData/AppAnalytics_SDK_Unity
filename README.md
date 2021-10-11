@@ -28,4 +28,3 @@ App Analytics Unity 平台 SDK 由 `封装层` 和 `Native SDK` 两部分构成�
 	| 标准化事件 | TDAA_STANDARD |
 	| 自定义事件 | TDAA_CUSTOM   |
 	| 页面统计   | TDAA_PAGE     |
-	| 推送营销   | TDAA_PUSH     |
